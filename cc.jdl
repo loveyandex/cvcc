@@ -1,0 +1,208 @@
+/**
+ * The application configuration.
+ * @author A true hipster
+ */
+application {
+  config {
+    baseName cvcc,
+    applicationType monolith,
+    packageName com.cvcc,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    devDatabaseType mysql,
+    clientFramework react
+  }
+  entities *
+}
+
+
+/**
+ * The Customer entity.
+ * @author A true hipster
+ */
+
+entity Customer {
+    /** fieldName */
+    phoneNumber String required unique
+}
+/**
+ * The Vendor entity.
+ * @author A true hipster
+ */
+entity Vendor {
+    /** fieldName */
+    phoneNumber String
+}
+/**
+ * The Addrress entity.
+ * @author A true hipster
+ */
+entity Addrress {
+    createdAt Instant
+    updatedAt Instant
+
+    title String
+    fullText String
+    lat BigDecimal
+    lon BigDecimal
+}
+/**
+ * Many to one relationship.
+ */
+relationship ManyToOne {
+    Addrress to Customer{addrresses}
+}
+/**
+ * The Asset entity.
+ * @author A true hipster
+ */
+entity Asset {
+    createdAt Instant
+    updatedAt Instant
+    /** srcUrl */
+    srcUrl String
+    type String
+}
+/**
+ * The Category entity.
+ * @author A true hipster
+ */
+entity Category {
+    /** fieldName */
+    name String required maxlength(255)
+
+	slug String required maxlength(255)
+
+	description String required maxlength(255)
+}
+relationship ManyToOne {
+    Category{parent} to Category
+}
+
+/**
+ * The Order entity.
+ * @author A true hipster
+ */
+entity Order {
+    createdAt Instant
+    updatedAt Instant
+	orderplacedat Instant
+
+    trackingcode String
+    status String
+}
+/**
+ * The OrderItem entity.
+ * @author A true hipster
+ */
+entity OrderItem {
+    price Integer required
+	priceincludestax Boolean required
+}
+entity OrderModification {
+    createdat Instant required
+	updatedat Instant required
+	note String required maxlength(255)
+	pricechange Integer required
+}
+
+
+entity PaymentMethod {
+    createdat Instant required
+	updatedat Instant required
+	name String required maxlength(255)
+	code String required maxlength(255)
+	description String required maxlength(255)
+	enabled Boolean required
+}
+entity Payment {
+    createdat Instant required
+	updatedat Instant required
+	method String required maxlength(255)
+	amount Integer required
+	status String required maxlength(255)
+	errormessage String maxlength(255)
+	metadata String required maxlength(255)
+}
+
+
+
+/**
+ * The Product entity.
+ * @author A true hipster
+ */
+entity Product {
+    /** fieldName */
+    instaPostId String
+    instaPostShortcode String
+    name String required maxlength(255)
+	slug String required maxlength(255)
+	description String required maxlength(255)
+}
+/**
+ * The ProductVarient entity.
+ * @author A true hipster
+ */
+entity ProductVarient {
+    /** fieldName */
+    
+	createdat Instant required
+	updatedat Instant required
+	deletedat Instant 
+
+    name String
+
+	enabled Boolean required
+	sku String required maxlength(255)
+	stockonhand Integer required
+	stockallocated Integer required
+	outofstockthreshold Integer required
+	useglobaloutofstockthreshold Boolean required
+}
+
+entity Channel {
+	createdat Instant required
+	updatedat Instant required
+    
+	code String required unique maxlength(255)
+
+	token String required unique maxlength(255)
+
+	defaultlanguagecode String required maxlength(255)
+
+	currencycode String required maxlength(255)
+
+	pricesincludetax Boolean required
+}
+
+
+entity ProductVariantPrice {
+	createdat Instant required
+	updatedat Instant required
+	price Integer required
+}
+
+
+
+
+entity TaxCategory {
+	createdat Instant required
+	updatedat Instant required
+	name String required maxlength(255)
+	isdefault Boolean required
+}
+
+entity TaxRate {
+	createdat Instant required
+	updatedat Instant required
+	name String required maxlength(255)
+	enabled Boolean required
+	value BigDecimal required
+}
+
+
+entity Zone {
+	createdat Instant required
+	updatedat Instant required
+	name String required maxlength(255)
+}
